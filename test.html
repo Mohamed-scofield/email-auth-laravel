@@ -1,0 +1,1139 @@
+<!DOCTYPE html>
+<html lang="fr">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Laravel - Envoi d'Emails</title>
+        <meta
+            name="description"
+            content="Guide complet pour l'envoi d'emails avec Laravel - Configuration, notifications, vérification et optimisations"
+        />
+        <meta name="theme-color" content="#667eea" />
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta
+            name="apple-mobile-web-app-status-bar-style"
+            content="black-translucent"
+        />
+        <meta name="apple-mobile-web-app-title" content="Laravel Emails" />
+        <meta name="msapplication-TileColor" content="#667eea" />
+
+        <!-- PWA Manifest -->
+        <link
+            rel="manifest"
+            href="data:application/json;base64,ewogICJuYW1lIjogIkxhcmF2ZWwgLSBHdWlkZSBFbnZvaSBkJ0VtYWlscyIsCiAgInNob3J0X25hbWUiOiAiTGFyYXZlbCBFbWFpbHMiLAogICJkZXNjcmlwdGlvbiI6ICJHdWlkZSBjb21wbGV0IHBvdXIgbCdlbnZvaSBkJ2VtYWlscyBhdmVjIExhcmF2ZWwiLAogICJzdGFydF91cmwiOiAiLyIsCiAgImRpc3BsYXkiOiAic3RhbmRhbG9uZSIsCiAgImJhY2tncm91bmRfY29sb3IiOiAiIzY2N2VlYSIsCiAgInRoZW1lX2NvbG9yIjogIiM2NjdlZWEiLAogICJvcmllbnRhdGlvbiI6ICJwb3J0cmFpdCIsCiAgImljb25zIjogWwogICAgeyAic3JjIjogImRhdGE6aW1hZ2Uvc3ZnK3htbDtiYXNlNjQsUEhOMlp5QjRiV3h1Y3owpWFIUjBjRG92TDNkM2R5NTNNeTV2Y21jdk1qQXdNQzl6ZG1jáUlIWnBaWGRDYjNnOUlqQWdNQ0F4TnpVZ01UYzFJaUJtYVd4c1BTbGNabEZHWmpOa00yNEpQR2RrWldZK1BHRmthRzpDSS9HZJIsInNpemVzIjoiMTkyeDE5MiIsInR5cGUiOiJpbWFnZS9zdmcreG1sIn0sCiAgICB7ICJzcmMiOiAiZGF0YTppbWFnZS9zdmcreG1sO2Jhc2U2NCxQSE4yWnlCNG4WeHVjejBpYUhSMWNEb3ZMMmQzZHk1M015NXZjbWN2TWpBd01DOXpkbWNpSUhacFpYZENiM2c5SWpBZ01DQXpNelVnTXpNMUlpQm1hV3hzUFNKY1psRkdabE5rTTI0SlBHZGtaV1krUEdGa1pHZENPTGNHaJRTwXsOAogICAgeyAic3JjIjogImRhdGE6aW1hZ2Uvc3ZnK3htbDtiYXNlNjQsUEhOMlp5QjRiV3h1Y3owpWFIUjBjRG92TDNkM2R5NTNNeTV2Y21jdk1qQXdNQzl6ZG1jalVIWnBaWGRDYjNnOUlqQWdNQ0ExTVRJZ05URXlJaUJtYVd4c1BTSmNabEZHWmpOa00yNEpQR2RrWldZK1BHRmtaR2w5SWlCR1pqTTBabU5sRWpRalpjaHpaMi1hY3BSc0FnYi1hY3BSc0FnOGRvT09zbTJNckNhc1RHUklDTlVTFVOTfkSWNrUVVoVElWUXNkMjVCRkkVRTtQUWZ6SEdWc2FibUlVMnpIbJlV2wRNQzk5RG1ja1NIWjlJOkxTZGxUZHZZblVZSXdZcJxlaTJOQzl6ZG1kSWluWmlhV3hzUFdGUU1ZbnBrRnFMT3pJZktXQXduTTJveGpxYVlUNTBSWGxzT2djZyFBWXBzT2djZyFBUzdTWUIlFGVUdEZaZW9ESmJSYkVoLmZNTXhYeNqwbGYtbERlZHV4cGZBT0lUWUtJZWhoAHRJenIiLCAic2l6ZXMiOiAiNTExeDUxMiIsICJ0eXBlIjogImltYWdlL3N2Zyt4bWwifQogIF0KfQ=="
+        />
+
+        <!-- Icônes pour différentes plateformes -->
+        <link
+            rel="icon"
+            type="image/svg+xml"
+            href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxNzUgMTc1IiBmaWxsPSIjNjY3ZWVhIj4KPGRlZnM+PGxpbmVhckdyYWRpZW50IGlkPSJhIiB4MT0iMCUiIHkxPSIwJSIgeDI9IjEwMCUiIHkyPSIxMDAlIj4KPHN0b3Agb2Zmc2V0PSIwJSIgc3R5bGU9InN0b3AtY29sb3I6IzY2N2VlYSIvPgo8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0eWxlPSJzdG9wLWNvbG9yOiM3NjRiYTIiLz4KPC9saW5lYXJHcmFkaWVudD48L2RlZnM+CjxyZWN0IHdpZHRoPSIxNzUiIGhlaWdodD0iMTc1IiBmaWxsPSJ1cmwoI2EpIiByeD0iMjAiLz4KPHN2ZyB4PSI0MCIgeT0iNDAiIHdpZHRoPSI5NSIgaGVpZ2h0PSI5NSIgZmlsbD0iI2ZmZiI+CjxwYXRoIGQ9Ik0yMCA0MHYzNWgzNVYyMGgtMzVhMjAgMjAgMCAwIDAtMjAgMjB6bTE1LTEwaDEwdjEwSDM1VjMwem0yMCAwaDEwdjEwSDU1VjMwem0wIDIwaDEwdjEwSDU1VjUwem0tMjAgMGgxMHYxMEgzNVY1MHoiLz4KPC9zdmc+Cjwvc3ZnPg=="
+        />
+        <link
+            rel="apple-touch-icon"
+            href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxNzUgMTc1IiBmaWxsPSIjNjY3ZWVhIj4KPGRlZnM+PGxpbmVhckdyYWRpZW50IGlkPSJhIiB4MT0iMCUiIHkxPSIwJSIgeDI9IjEwMCUiIHkyPSIxMDAlIj4KPHN0b3Agb2Zmc2V0PSIwJSIgc3R5bGU9InN0b3AtY29sb3I6IzY2N2VlYSIvPgo8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0eWxlPSJzdG9wLWNvbG9yOiM3NjRiYTIiLz4KPC9saW5lYXJHcmFkaWVudD48L2RlZnM+CjxyZWN0IHdpZHRoPSIxNzUiIGhlaWdodD0iMTc1IiBmaWxsPSJ1cmwoI2EpIiByeD0iMjAiLz4KPHN2ZyB4PSI0MCIgeT0iNDAiIHdpZHRoPSI5NSIgaGVpZ2h0PSI5NSIgZmlsbD0iI2ZmZiI+CjxwYXRoIGQ9Ik0yMCA0MHYzNWgzNVYyMGgtMzVhMjAgMjAgMCAwIDAtMjAgMjB6bTE1LTEwaDEwdjEwSDM1VjMwem0yMCAwaDEwdjEwSDU1VjMwem0wIDIwaDEwdjEwSDU1VjUwem0tMjAgMGgxMHYxMEgzNVY1MHoiLz4KPC9zdmc+Cjwvc3ZnPg=="
+        />
+
+        <link
+            href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700&family=Open+Sans:wght@300;400;500;600&display=swap"
+            rel="stylesheet"
+        />
+        <style>
+            * {
+                margin: 0;
+                padding: 0;
+                box-sizing: border-box;
+            }
+
+            body {
+                font-family: "Open Sans", sans-serif;
+                line-height: 1.6;
+                color: #2c3e50;
+                background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                min-height: 100vh;
+            }
+
+            .container {
+                max-width: 210mm;
+                margin: 0 auto;
+                background: white;
+                box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+                position: relative;
+            }
+
+            /* Page de couverture */
+            .cover-page {
+                height: 297mm;
+                background: linear-gradient(
+                    135deg,
+                    #2c3e50 0%,
+                    #3498db 50%,
+                    #e74c3c 100%
+                );
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                text-align: center;
+                color: white;
+                position: relative;
+                overflow: hidden;
+            }
+
+            .cover-page::before {
+                content: "";
+                position: absolute;
+                top: -50%;
+                left: -50%;
+                width: 200%;
+                height: 200%;
+                background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="2" fill="rgba(255,255,255,0.1)"/></svg>')
+                    repeat;
+                animation: float 20s infinite linear;
+            }
+
+            @keyframes float {
+                0% {
+                    transform: translateX(0) translateY(0);
+                }
+                100% {
+                    transform: translateX(-50px) translateY(-50px);
+                }
+            }
+
+            .cover-title {
+                font-family: "Montserrat", sans-serif;
+                font-size: 3.5rem;
+                font-weight: 700;
+                margin-bottom: 1rem;
+                text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+                z-index: 2;
+            }
+
+            .cover-subtitle {
+                font-family: "Montserrat", sans-serif;
+                font-size: 1.8rem;
+                font-weight: 300;
+                margin-bottom: 2rem;
+                opacity: 0.9;
+                z-index: 2;
+            }
+
+            .cover-badge {
+                background: rgba(255, 255, 255, 0.2);
+                backdrop-filter: blur(10px);
+                padding: 1rem 2rem;
+                border-radius: 50px;
+                border: 1px solid rgba(255, 255, 255, 0.3);
+                font-weight: 600;
+                z-index: 2;
+            }
+
+            /* Pages de contenu */
+            .content-page {
+                padding: 2rem;
+                min-height: 297mm;
+                page-break-after: always;
+            }
+
+            .content-page:last-child {
+                page-break-after: auto;
+            }
+
+            .page-header {
+                border-bottom: 3px solid #3498db;
+                padding-bottom: 1rem;
+                margin-bottom: 2rem;
+            }
+
+            h1 {
+                font-family: "Montserrat", sans-serif;
+                font-size: 2.5rem;
+                font-weight: 700;
+                color: #2c3e50;
+                margin-bottom: 0.5rem;
+            }
+
+            h2 {
+                font-family: "Montserrat", sans-serif;
+                font-size: 1.8rem;
+                font-weight: 600;
+                color: #34495e;
+                margin: 2rem 0 1rem 0;
+                padding-left: 1rem;
+                border-left: 4px solid #e74c3c;
+            }
+
+            h3 {
+                font-family: "Montserrat", sans-serif;
+                font-size: 1.3rem;
+                font-weight: 600;
+                color: #2c3e50;
+                margin: 1.5rem 0 0.8rem 0;
+            }
+
+            p {
+                margin-bottom: 1rem;
+                font-size: 1rem;
+                line-height: 1.7;
+            }
+
+            .intro-section {
+                background: linear-gradient(135deg, #74b9ff, #0984e3);
+                color: white;
+                padding: 2rem;
+                border-radius: 15px;
+                margin-bottom: 2rem;
+                box-shadow: 0 10px 30px rgba(116, 185, 255, 0.3);
+            }
+
+            .intro-section h2 {
+                color: white;
+                border-left-color: rgba(255, 255, 255, 0.5);
+                margin-top: 0;
+            }
+
+            .code-block {
+                background: #2d3748;
+                color: #e2e8f0;
+                padding: 1.5rem;
+                border-radius: 10px;
+                margin: 1rem 0;
+                font-family: "Courier New", monospace;
+                font-size: 0.9rem;
+                overflow-x: auto;
+                box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.3);
+            }
+
+            .code-block .keyword {
+                color: #f56565;
+            }
+
+            .code-block .string {
+                color: #68d391;
+            }
+
+            .code-block .comment {
+                color: #a0aec0;
+                font-style: italic;
+            }
+
+            .highlight-box {
+                background: linear-gradient(135deg, #ffeaa7, #fdcb6e);
+                padding: 1.5rem;
+                border-radius: 10px;
+                margin: 1.5rem 0;
+                border-left: 5px solid #e17055;
+            }
+
+            .highlight-box h4 {
+                font-family: "Montserrat", sans-serif;
+                font-weight: 600;
+                color: #2d3436;
+                margin-bottom: 0.5rem;
+            }
+
+            .info-box {
+                background: linear-gradient(135deg, #a8e6cf, #7fcdcd);
+                padding: 1.5rem;
+                border-radius: 10px;
+                margin: 1.5rem 0;
+                border-left: 5px solid #00b894;
+            }
+
+            .warning-box {
+                background: linear-gradient(135deg, #fab1a0, #e17055);
+                color: white;
+                padding: 1.5rem;
+                border-radius: 10px;
+                margin: 1.5rem 0;
+                border-left: 5px solid #d63031;
+            }
+
+            .step-list {
+                counter-reset: step-counter;
+                list-style: none;
+                padding: 0;
+            }
+
+            .step-list li {
+                counter-increment: step-counter;
+                background: white;
+                margin: 1rem 0;
+                padding: 1.5rem;
+                border-radius: 10px;
+                box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+                border-left: 4px solid #3498db;
+                position: relative;
+            }
+
+            .step-list li::before {
+                content: counter(step-counter);
+                background: #3498db;
+                color: white;
+                width: 30px;
+                height: 30px;
+                border-radius: 50%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-weight: bold;
+                position: absolute;
+                left: -15px;
+                top: 1.5rem;
+                font-family: "Montserrat", sans-serif;
+            }
+
+            .summary-table {
+                width: 100%;
+                border-collapse: collapse;
+                margin: 2rem 0;
+                background: white;
+                border-radius: 10px;
+                overflow: hidden;
+                box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            }
+
+            .summary-table th {
+                background: linear-gradient(135deg, #667eea, #764ba2);
+                color: white;
+                padding: 1rem;
+                text-align: left;
+                font-family: "Montserrat", sans-serif;
+                font-weight: 600;
+            }
+
+            .summary-table td {
+                padding: 1rem;
+                border-bottom: 1px solid #ecf0f1;
+            }
+
+            .summary-table tr:hover {
+                background: #f8f9fa;
+            }
+
+            .checklist {
+                list-style: none;
+                padding: 0;
+            }
+
+            .checklist li {
+                padding: 0.5rem 0;
+                position: relative;
+                padding-left: 2rem;
+            }
+
+            .checklist li::before {
+                content: "✅";
+                position: absolute;
+                left: 0;
+                font-size: 1.2rem;
+            }
+
+            .page-footer {
+                position: fixed;
+                bottom: 1rem;
+                right: 2rem;
+                font-size: 0.9rem;
+                color: #7f8c8d;
+            }
+
+            /* PWA Styles */
+            .pwa-install-banner {
+                position: fixed;
+                top: 0;
+                left: 0;
+                right: 0;
+                background: linear-gradient(135deg, #667eea, #764ba2);
+                color: white;
+                padding: 1rem;
+                text-align: center;
+                transform: translateY(-100%);
+                transition: transform 0.3s ease;
+                z-index: 2000;
+                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            }
+
+            .pwa-install-banner.show {
+                transform: translateY(0);
+            }
+
+            .pwa-install-btn {
+                background: rgba(255, 255, 255, 0.2);
+                border: 2px solid rgba(255, 255, 255, 0.3);
+                color: white;
+                padding: 0.5rem 1rem;
+                border-radius: 25px;
+                margin-left: 1rem;
+                cursor: pointer;
+                font-weight: 600;
+                transition: all 0.3s ease;
+            }
+
+            .pwa-install-btn:hover {
+                background: rgba(255, 255, 255, 0.3);
+                transform: scale(1.05);
+            }
+
+            .pwa-close-btn {
+                position: absolute;
+                right: 1rem;
+                top: 50%;
+                transform: translateY(-50%);
+                background: none;
+                border: none;
+                color: white;
+                font-size: 1.5rem;
+                cursor: pointer;
+                width: 30px;
+                height: 30px;
+                border-radius: 50%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+
+            .pwa-close-btn:hover {
+                background: rgba(255, 255, 255, 0.2);
+            }
+
+            .offline-indicator {
+                position: fixed;
+                bottom: 20px;
+                left: 20px;
+                background: #e74c3c;
+                color: white;
+                padding: 0.5rem 1rem;
+                border-radius: 25px;
+                font-size: 0.9rem;
+                display: none;
+                z-index: 1000;
+            }
+
+            .offline-indicator.show {
+                display: block;
+                animation: slideIn 0.3s ease;
+            }
+
+            @keyframes slideIn {
+                from {
+                    transform: translateX(-100%);
+                }
+                to {
+                    transform: translateX(0);
+                }
+            }
+
+            @media print {
+                body {
+                    background: white;
+                }
+                .container {
+                    box-shadow: none;
+                }
+                .content-page {
+                    page-break-after: always;
+                }
+                .pwa-install-banner,
+                .offline-indicator {
+                    display: none !important;
+                }
+            }
+        </style>
+    </head>
+    <body>
+        <!-- PWA Install Banner -->
+        <div id="pwa-install-banner" class="pwa-install-banner">
+            <span
+                >📱 Installez cette application sur votre appareil pour un accès
+                hors-ligne !</span
+            >
+            <button id="pwa-install-btn" class="pwa-install-btn">
+                Installer
+            </button>
+            <button id="pwa-close-btn" class="pwa-close-btn">×</button>
+        </div>
+
+        <!-- Offline Indicator -->
+        <div id="offline-indicator" class="offline-indicator">
+            🔴 Mode hors-ligne - Contenu mis en cache disponible
+        </div>
+
+        <div class="container">
+            <!-- Page de couverture -->
+            <div class="cover-page">
+                <h1 class="cover-title">Laravel</h1>
+                <p class="cover-subtitle">Envoi d'Emails</p>
+                <div class="cover-badge">Guide Complet & Moderne</div>
+            </div>
+
+            <!-- Page 1: Introduction -->
+            <div class="content-page">
+                <div class="page-header">
+                    <h1>Introduction</h1>
+                </div>
+
+                <div class="intro-section">
+                    <h2>Objectifs du Cours</h2>
+                    <p>
+                        Ce guide vous accompagne dans la maîtrise complète de
+                        l'envoi d'emails avec Laravel. Vous apprendrez à créer
+                        des systèmes d'emailing robustes et professionnels.
+                    </p>
+                </div>
+
+                <h2>Fonctionnalités Couvertes</h2>
+                <ul class="checklist">
+                    <li>Configuration SMTP avancée</li>
+                    <li>Emails de bienvenue automatisés</li>
+                    <li>Système de vérification d'email</li>
+                    <li>Messagerie entre utilisateurs</li>
+                    <li>Templates personnalisés</li>
+                    <li>Optimisation avec les queues</li>
+                    <li>Gestion d'erreurs</li>
+                </ul>
+
+                <div class="highlight-box">
+                    <h4>💡 Approche Pédagogique</h4>
+                    <p>
+                        Ce cours adopte une approche progressive : nous
+                        commençons par les bases, puis nous ajoutons des
+                        fonctionnalités avancées. Chaque étape est expliquée
+                        simplement avec des exemples concrets.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Page 2: Configuration -->
+            <div class="content-page">
+                <div class="page-header">
+                    <h1>Configuration de Base</h1>
+                </div>
+
+                <h2>1. Fichier .env (Essentiel !)</h2>
+                <p>
+                    Le fichier <code>.env</code> est le cœur de votre
+                    configuration email. Il indique à Laravel comment envoyer
+                    vos emails.
+                </p>
+
+                <h3>Configuration Gmail</h3>
+                <div class="code-block">
+                    <span class="comment"># Configuration SMTP pour Gmail</span>
+                    <span class="keyword">MAIL_MAILER</span>=smtp
+                    <span class="keyword">MAIL_HOST</span>=smtp.gmail.com
+                    <span class="keyword">MAIL_PORT</span>=587
+                    <span class="keyword">MAIL_USERNAME</span>=<span
+                        class="string"
+                        >tonemail@gmail.com</span
+                    >
+                    <span class="keyword">MAIL_PASSWORD</span>=<span
+                        class="string"
+                        >ton_mot_de_passe_app</span
+                    >
+                    <span class="keyword">MAIL_ENCRYPTION</span>=tls
+                    <span class="keyword">MAIL_FROM_ADDRESS</span>=<span
+                        class="string"
+                        >tonemail@gmail.com</span
+                    >
+                    <span class="keyword">MAIL_FROM_NAME</span>=<span
+                        class="string"
+                        >"MonApp"</span
+                    >
+                </div>
+
+                <div class="warning-box">
+                    <h4>⚠️ Sécurité Gmail</h4>
+                    <ol class="step-list">
+                        <li>
+                            Activez la validation en 2 étapes sur votre compte
+                            Google
+                        </li>
+                        <li>
+                            Générez un "mot de passe d'application" spécifique
+                        </li>
+                        <li>Utilisez ce mot de passe dans MAIL_PASSWORD</li>
+                        <li>Ne partagez jamais ces identifiants</li>
+                    </ol>
+                </div>
+
+                <h3>Comprendre les Paramètres</h3>
+                <div class="info-box">
+                    <p>
+                        <strong>MAIL_HOST</strong> : Adresse du serveur email
+                        (comme l'adresse de la poste)
+                    </p>
+                    <p>
+                        <strong>MAIL_PORT</strong> : Port de communication (587
+                        pour Gmail)
+                    </p>
+                    <p>
+                        <strong>MAIL_USERNAME/PASSWORD</strong> : Vos
+                        identifiants d'authentification
+                    </p>
+                    <p>
+                        <strong>MAIL_FROM_ADDRESS</strong> : Email expéditeur
+                        affiché
+                    </p>
+                </div>
+            </div>
+
+            <!-- Page 3: Email de Bienvenue -->
+            <div class="content-page">
+                <div class="page-header">
+                    <h1>Email de Bienvenue</h1>
+                </div>
+
+                <h2>1. Créer une Notification</h2>
+                <p>
+                    Une notification Laravel est un modèle d'email réutilisable.
+                    Créez-la avec cette commande :
+                </p>
+
+                <div class="code-block">
+                    php artisan make:notification WelcomeNotification
+                </div>
+
+                <h3>Structure de la Notification</h3>
+                <div class="code-block">
+                    <span class="keyword">public function</span>
+                    <span class="string">via</span>($notifiable) {
+                    <span class="keyword">return</span> [<span class="string"
+                        >'mail'</span
+                    >]; <span class="comment">// Envoi par email</span>
+                    }
+
+                    <span class="keyword">public function</span>
+                    <span class="string">toMail</span>($notifiable) {
+                    <span class="keyword">return</span> (<span class="keyword"
+                        >new</span
+                    >
+                    MailMessage) ->subject(<span class="string"
+                        >'Bienvenue !'</span
+                    >) ->greeting(<span class="string">'Salut '</span> .
+                    $notifiable->name . <span class="string">' 👋'</span>)
+                    ->line(<span class="string"
+                        >'Merci de t\'être inscrit.'</span
+                    >) ->action(<span class="string">'Visiter le site'</span>,
+                    url(<span class="string">'/'</span>)) ->line(<span
+                        class="string"
+                        >'À bientôt !'</span
+                    >); }
+                </div>
+
+                <h2>2. Envoyer la Notification</h2>
+                <p>
+                    Dans votre contrôleur d'inscription, après la création de
+                    l'utilisateur :
+                </p>
+
+                <div class="code-block">
+                    <span class="comment"
+                        >// Après création de l'utilisateur</span
+                    >
+                    $user->notify(<span class="keyword">new</span>
+                    WelcomeNotification());
+                </div>
+
+                <div class="highlight-box">
+                    <h4>💡 Bonnes Pratiques</h4>
+                    <p>
+                        Envoyez l'email de bienvenue immédiatement après
+                        l'inscription pour créer un lien avec vos utilisateurs.
+                        Personnalisez le message avec leur nom pour une
+                        expérience plus chaleureuse.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Page 4: Vérification d'Email -->
+            <div class="content-page">
+                <div class="page-header">
+                    <h1>Vérification d'Email</h1>
+                </div>
+
+                <h2>Pourquoi Vérifier les Emails ?</h2>
+                <div class="info-box">
+                    <p>
+                        La vérification d'email garantit que l'adresse
+                        appartient réellement à l'utilisateur. Cela améliore la
+                        sécurité et la délivrabilité de vos emails.
+                    </p>
+                </div>
+
+                <h2>Configuration</h2>
+                <ol class="step-list">
+                    <li>
+                        <h4>Modifier le modèle User</h4>
+                        <div class="code-block">
+                            <span class="keyword">use</span>
+                            Illuminate\Contracts\Auth\MustVerifyEmail;
+
+                            <span class="keyword">class</span> User
+                            <span class="keyword">extends</span> Authenticatable
+                            <span class="keyword">implements</span>
+                            MustVerifyEmail
+                        </div>
+                    </li>
+
+                    <li>
+                        <h4>Ajouter les routes de vérification</h4>
+                        <div class="code-block">
+                            <span class="comment">// Dans routes/web.php</span>
+                            Auth::routes([<span class="string">'verify'</span>
+                            => <span class="keyword">true</span>]);
+                        </div>
+                    </li>
+
+                    <li>
+                        <h4>Protéger vos routes importantes</h4>
+                        <div class="code-block">
+                            Route::get(<span class="string">'/dashboard'</span>,
+                            <span class="keyword">function</span> () {
+                            <span class="keyword">return</span> view(<span
+                                class="string"
+                                >'dashboard'</span
+                            >); })->middleware([<span class="string"
+                                >'auth'</span
+                            >, <span class="string">'verified'</span>]);
+                        </div>
+                    </li>
+                </ol>
+
+                <div class="warning-box">
+                    <h4>⚠️ Middleware Important</h4>
+                    <p><strong>auth</strong> : Utilisateur connecté</p>
+                    <p><strong>verified</strong> : Email vérifié</p>
+                    <p>
+                        Ces deux middleware ensemble créent un système sécurisé.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Page 5: Messages entre Utilisateurs -->
+            <div class="content-page">
+                <div class="page-header">
+                    <h1>Messages entre Utilisateurs</h1>
+                </div>
+
+                <h2>1. Notification de Message</h2>
+                <div class="code-block">
+                    php artisan make:notification NewMessageNotification
+                </div>
+
+                <h3>Implémentation de la Notification</h3>
+                <div class="code-block">
+                    <span class="keyword">class</span> NewMessageNotification
+                    <span class="keyword">extends</span> Notification {
+                    <span class="keyword">private</span> $messageData;
+
+                    <span class="keyword">public function</span>
+                    __construct($messageData) { $this->messageData =
+                    $messageData; }
+
+                    <span class="keyword">public function</span>
+                    toMail($notifiable) {
+                    <span class="keyword">return</span> (<span class="keyword"
+                        >new</span
+                    >
+                    MailMessage) ->subject(<span class="string"
+                        >'Nouveau message de '</span
+                    >
+                    . $this->messageData[<span class="string"
+                        >'sender_name'</span
+                    >]) ->greeting(<span class="string">'Bonjour '</span> .
+                    $notifiable->name) ->line(<span class="string"
+                        >'Vous avez reçu un nouveau message :'</span
+                    >) ->line(<span class="string">'"'</span> .
+                    $this->messageData[<span class="string">'message'</span>] .
+                    <span class="string">'"'</span>) ->action(<span
+                        class="string"
+                        >'Voir le message'</span
+                    >, url(<span class="string">'/messages'</span>)); } }
+                </div>
+
+                <h2>2. Contrôleur de Messages</h2>
+                <div class="code-block">
+                    <span class="keyword">public function</span> send(Request
+                    $request) {
+                    <span class="comment">// Validation</span>
+                    $request->validate([
+                    <span class="string">'recipient_id'</span> =>
+                    <span class="string">'required|exists:users,id'</span>,
+                    <span class="string">'message'</span> =>
+                    <span class="string">'required|string|max:500'</span>, ]);
+
+                    <span class="comment">// Trouver le destinataire</span>
+                    $recipient = User::findOrFail($request->recipient_id);
+
+                    <span class="comment">// Préparer les données</span>
+                    $messageData = [
+                    <span class="string">'sender_name'</span> =>
+                    auth()->user()->name,
+                    <span class="string">'message'</span> => $request->message,
+                    ];
+
+                    <span class="comment">// Envoyer la notification</span>
+                    $recipient->notify(<span class="keyword">new</span>
+                    NewMessageNotification($messageData));
+
+                    <span class="keyword">return</span> back()->with(<span
+                        class="string"
+                        >'success'</span
+                    >, <span class="string">'Message envoyé !'</span>); }
+                </div>
+            </div>
+
+            <!-- Page 6: Optimisations -->
+            <div class="content-page">
+                <div class="page-header">
+                    <h1>Optimisations Avancées</h1>
+                </div>
+
+                <h2>1. Templates Personnalisés</h2>
+                <p>Créez des emails avec votre identité visuelle :</p>
+
+                <div class="code-block">
+                    <span class="comment"
+                        >// Dans resources/views/emails/welcome.blade.php</span
+                    >
+                    &lt;!DOCTYPE html&gt; &lt;html&gt; &lt;head&gt;
+                    &lt;style&gt; .container { max-width: 600px; margin: 0 auto;
+                    } .header { background: #4CAF50; color: white; padding:
+                    20px; } &lt;/style&gt; &lt;/head&gt; &lt;body&gt; &lt;div
+                    class="container"&gt; &lt;div class="header"&gt;
+                    &lt;h1&gt;Bienvenue {{ $user->name }} !&lt;/h1&gt;
+                    &lt;/div&gt; &lt;/div&gt; &lt;/body&gt; &lt;/html&gt;
+                </div>
+
+                <h2>2. Queues pour les Performances</h2>
+                <div class="highlight-box">
+                    <h4>🚀 Pourquoi les Queues ?</h4>
+                    <p>
+                        Les queues permettent d'envoyer les emails en
+                        arrière-plan, évitant les ralentissements de votre
+                        application.
+                    </p>
+                </div>
+
+                <ol class="step-list">
+                    <li>
+                        <h4>Configuration</h4>
+                        <div class="code-block">
+                            <span class="comment"># Dans .env</span>
+                            <span class="keyword">QUEUE_CONNECTION</span
+                            >=database
+                        </div>
+                    </li>
+
+                    <li>
+                        <h4>Créer les tables</h4>
+                        <div class="code-block">
+                            php artisan queue:table php artisan migrate
+                        </div>
+                    </li>
+
+                    <li>
+                        <h4>Rendre les notifications asynchrones</h4>
+                        <div class="code-block">
+                            <span class="keyword">class</span>
+                            WelcomeNotification
+                            <span class="keyword">extends</span> Notification
+                            <span class="keyword">implements</span> ShouldQueue
+                        </div>
+                    </li>
+                </ol>
+            </div>
+
+            <!-- Page 7: Récapitulatif -->
+            <div class="content-page">
+                <div class="page-header">
+                    <h1>Récapitulatif & Commandes</h1>
+                </div>
+
+                <h2>Tableau de Référence</h2>
+                <table class="summary-table">
+                    <thead>
+                        <tr>
+                            <th>Étape</th>
+                            <th>Action</th>
+                            <th>Commande/Fichier</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>1</td>
+                            <td>Configurer SMTP</td>
+                            <td>Modifier <code>.env</code></td>
+                        </tr>
+                        <tr>
+                            <td>2</td>
+                            <td>Créer notification</td>
+                            <td><code>php artisan make:notification</code></td>
+                        </tr>
+                        <tr>
+                            <td>3</td>
+                            <td>Envoyer email</td>
+                            <td>
+                                <code>$user->notify(new Notification())</code>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>4</td>
+                            <td>Vérification email</td>
+                            <td><code>implements MustVerifyEmail</code></td>
+                        </tr>
+                        <tr>
+                            <td>5</td>
+                            <td>Template personnalisé</td>
+                            <td><code>resources/views/emails/</code></td>
+                        </tr>
+                        <tr>
+                            <td>6</td>
+                            <td>Queues</td>
+                            <td><code>QUEUE_CONNECTION=database</code></td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h2>Commandes Essentielles</h2>
+                <div class="code-block">
+                    <span class="comment"># Créer une notification</span>
+                    php artisan make:notification NomNotification
+
+                    <span class="comment"># Créer un contrôleur</span>
+                    php artisan make:controller NomController
+
+                    <span class="comment"># Tester dans Tinker</span>
+                    php artisan tinker
+
+                    <span class="comment"># Configuration des queues</span>
+                    php artisan queue:table php artisan migrate php artisan
+                    queue:work
+
+                    <span class="comment"># Test rapide d'email</span>
+                    Mail::raw(<span class="string">'Test'</span>,
+                    <span class="keyword">function</span>($m) { $m->to(<span
+                        class="string"
+                        >'test@test.com'</span
+                    >)->subject(<span class="string">'Test'</span>); });
+                </div>
+
+                <h2>Fonctionnalités Maîtrisées</h2>
+                <ul class="checklist">
+                    <li>Configuration SMTP professionnelle</li>
+                    <li>Emails de bienvenue automatisés</li>
+                    <li>Système de vérification sécurisé</li>
+                    <li>Messagerie inter-utilisateurs</li>
+                    <li>Templates personnalisés élégants</li>
+                    <li>Optimisation avec les queues</li>
+                    <li>Gestion d'erreurs robuste</li>
+                    <li>Tests et débogage</li>
+                </ul>
+
+                <div class="highlight-box">
+                    <h4>🎯 Conseil Final</h4>
+                    <p>
+                        Commencez par implémenter les fonctionnalités de base,
+                        puis ajoutez progressivement les features avancées. La
+                        maîtrise vient avec la pratique !
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <script>
+            // Service Worker Registration
+            if ("serviceWorker" in navigator) {
+                window.addEventListener("load", async () => {
+                    try {
+                        // Service Worker inline pour éviter les problèmes de CORS
+                        const swCode = `
+                        const CACHE_NAME = 'laravel-email-guide-v1';
+                        const urlsToCache = [
+                            '/',
+                            'https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700&family=Open+Sans:wght@300;400;500;600&display=swap'
+                        ];
+
+                        self.addEventListener('install', event => {
+                            event.waitUntil(
+                                caches.open(CACHE_NAME)
+                                    .then(cache => cache.addAll(urlsToCache))
+                            );
+                        });
+
+                        self.addEventListener('fetch', event => {
+                            event.respondWith(
+                                caches.match(event.request)
+                                    .then(response => {
+                                        if (response) {
+                                            return response;
+                                        }
+                                        return fetch(event.request);
+                                    })
+                            );
+                        });
+                    `;
+
+                        const blob = new Blob([swCode], {
+                            type: "application/javascript",
+                        });
+                        const swUrl = URL.createObjectURL(blob);
+
+                        const registration =
+                            await navigator.serviceWorker.register(swUrl);
+                        console.log("Service Worker enregistré:", registration);
+                    } catch (error) {
+                        console.log("Erreur Service Worker:", error);
+                    }
+                });
+            }
+
+            // PWA Install Logic
+            let deferredPrompt;
+            const installBanner = document.getElementById("pwa-install-banner");
+            const installButton = document.getElementById("pwa-install-btn");
+            const closeButton = document.getElementById("pwa-close-btn");
+
+            window.addEventListener("beforeinstallprompt", (e) => {
+                e.preventDefault();
+                deferredPrompt = e;
+
+                // Vérifier si l'app n'est pas déjà installée
+                if (!window.matchMedia("(display-mode: standalone)").matches) {
+                    installBanner.classList.add("show");
+                }
+            });
+
+            installButton.addEventListener("click", async () => {
+                if (deferredPrompt) {
+                    deferredPrompt.prompt();
+                    const { outcome } = await deferredPrompt.userChoice;
+
+                    if (outcome === "accepted") {
+                        console.log("PWA installée avec succès");
+                    }
+
+                    deferredPrompt = null;
+                    installBanner.classList.remove("show");
+                }
+            });
+
+            closeButton.addEventListener("click", () => {
+                installBanner.classList.remove("show");
+                localStorage.setItem("pwa-banner-closed", "true");
+            });
+
+            // Vérifier si la bannière a été fermée précédemment
+            if (localStorage.getItem("pwa-banner-closed") === "true") {
+                installBanner.style.display = "none";
+            }
+
+            // Détecter le mode standalone (app installée)
+            window.addEventListener("DOMContentLoaded", () => {
+                if (window.matchMedia("(display-mode: standalone)").matches) {
+                    console.log("Application PWA lancée en mode standalone");
+                    installBanner.style.display = "none";
+                }
+            });
+
+            // Offline/Online Detection
+            const offlineIndicator =
+                document.getElementById("offline-indicator");
+
+            function updateOnlineStatus() {
+                if (navigator.onLine) {
+                    offlineIndicator.classList.remove("show");
+                } else {
+                    offlineIndicator.classList.add("show");
+                }
+            }
+
+            window.addEventListener("online", updateOnlineStatus);
+            window.addEventListener("offline", updateOnlineStatus);
+
+            // Fonction pour imprimer/sauvegarder en PDF
+            function printToPDF() {
+                window.print();
+            }
+
+            // Ajouter un bouton d'impression avec détection PWA
+            document.addEventListener("DOMContentLoaded", function () {
+                const button = document.createElement("button");
+                const isPWA = window.matchMedia(
+                    "(display-mode: standalone)"
+                ).matches;
+
+                button.textContent = isPWA
+                    ? "🖨️ Imprimer"
+                    : "Sauvegarder en PDF";
+                button.style.cssText = `
+                position: fixed;
+                top: ${isPWA ? "70px" : "20px"};
+                right: 20px;
+                background: linear-gradient(135deg, #667eea, #764ba2);
+                color: white;
+                border: none;
+                padding: 12px 24px;
+                border-radius: 25px;
+                font-family: 'Montserrat', sans-serif;
+                font-weight: 600;
+                cursor: pointer;
+                box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+                z-index: 1000;
+                transition: transform 0.2s;
+            `;
+
+                button.onmouseover = () =>
+                    (button.style.transform = "scale(1.05)");
+                button.onmouseout = () => (button.style.transform = "scale(1)");
+                button.onclick = printToPDF;
+
+                document.body.appendChild(button);
+
+                // Ajouter un bouton de partage si l'API est disponible
+                if (navigator.share && isPWA) {
+                    const shareButton = document.createElement("button");
+                    shareButton.textContent = "📤 Partager";
+                    shareButton.style.cssText = button.style.cssText.replace(
+                        "top: 70px",
+                        "top: 120px"
+                    );
+                    shareButton.onclick = async () => {
+                        try {
+                            await navigator.share({
+                                title: "Laravel - Guide Envoi d'Emails",
+                                text: "Guide complet pour l'envoi d'emails avec Laravel",
+                                url: window.location.href,
+                            });
+                        } catch (error) {
+                            console.log("Erreur lors du partage:", error);
+                        }
+                    };
+                    document.body.appendChild(shareButton);
+                }
+            });
+
+            // Gestion des notifications push (optionnel)
+            if ("Notification" in window) {
+                function requestNotificationPermission() {
+                    if (Notification.permission === "default") {
+                        Notification.requestPermission().then((permission) => {
+                            if (permission === "granted") {
+                                new Notification("Laravel Email Guide", {
+                                    body: "Application installée avec succès ! Vous pouvez maintenant l'utiliser hors-ligne.",
+                                    icon: "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxNzUgMTc1IiBmaWxsPSIjNjY3ZWVhIj4KPGRlZnM+PGxpbmVhckdyYWRpZW50IGlkPSJhIiB4MT0iMCUiIHkxPSIwJSIgeDI9IjEwMCUiIHkyPSIxMDAlIj4KPHN0b3Agb2Zmc2V0PSIwJSIgc3R5bGU9InN0b3AtY29sb3I6IzY2N2VlYSIvPgo8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0eWxlPSJzdG9wLWNvbG9yOiM3NjRiYTIiLz4KPC9saW5lYXJHcmFkaWVudD48L2RlZnM+CjxyZWN0IHdpZHRoPSIxNzUiIGhlaWdodD0iMTc1IiBmaWxsPSJ1cmwoI2EpIiByeD0iMjAiLz4KPHN2ZyB4PSI0MCIgeT0iNDAiIHdpZHRoPSI5NSIgaGVpZ2h0PSI5NSIgZmlsbD0iI2ZmZiI+CjxwYXRoIGQ9Ik0yMCA0MHYzNWgzNVYyMGgtMzVhMjAgMjAgMCAwIDAtMjAgMjB6bTE1LTEwaDEwdjEwSDM1VjMwem0yMCAwaDEwdjEwSDU1VjMwem0wIDIwaDEwdjEwSDU1VjUwem0tMjAgMGgxMHYxMEgzNVY1MHoiLz4KPC9zdmc+Cjwvc3ZnPg==",
+                                });
+                            }
+                        });
+                    }
+                }
+
+                // Demander la permission après installation
+                window.addEventListener("appinstalled", () => {
+                    setTimeout(requestNotificationPermission, 2000);
+                });
+            }
+        </script>
+    </body>
+</html>
